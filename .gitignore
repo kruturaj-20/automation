@@ -46,7 +46,8 @@ htmlcov/
 logs/
 *.jsonl
 _e2e_workspaces/
-workspace/
+/workspace/
+!src/workspace/
 .agent_meta/
 
 # IDE & OS

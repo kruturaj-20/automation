@@ -72,10 +72,17 @@ class LimitsConfig:
 
 
 @dataclass
+class ProjectsConfig:
+    default_dir: str = "e:\\Work\\Projects"
+    allowed_dirs: list[str] = field(default_factory=lambda: ["e:\\Work", "e:/Work"])
+
+
+@dataclass
 class AgentConfig:
     ide: IDEConfig = field(default_factory=IDEConfig)
     llm: LLMConfig = field(default_factory=LLMConfig)
     security: SecurityConfig = field(default_factory=SecurityConfig)
+    projects: ProjectsConfig = field(default_factory=ProjectsConfig)
     limits: LimitsConfig = field(default_factory=LimitsConfig)
     default_workspace: str = "e:\\Work\\automation"
 
@@ -135,6 +142,11 @@ def load_config(config_path: Optional[str] = None) -> AgentConfig:
         deny=sec_data.get("deny", ["access.personal_files", "access.credentials"]),
     )
 
+    projects_cfg = ProjectsConfig(
+        default_dir=projects_data.get("default_dir", "e:\\Work\\automation"),
+        allowed_dirs=allowed_dirs,
+    )
+
     agent_data = data.get("agent", {})
     limits_cfg = LimitsConfig(
         max_iterations=int(agent_data.get("max_iterations", 10)),
@@ -147,6 +159,7 @@ def load_config(config_path: Optional[str] = None) -> AgentConfig:
         ide=ide_cfg,
         llm=llm_cfg,
         security=sec_cfg,
+        projects=projects_cfg,
         limits=limits_cfg,
-        default_workspace=projects_data.get("default_dir", "e:\\Work\\Projects"),
+        default_workspace=projects_cfg.default_dir,
     )
