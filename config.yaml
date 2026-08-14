@@ -1,0 +1,44 @@
+# Personal Autonomous AI Computer Agent Configuration
+
+ide:
+  type: "antigravity"
+  antigravity:
+    prefer_sdk: true
+    cli_path: "gemini"
+    model: "gemini-2.5-pro"
+    approval_mode: "yolo"
+    sandbox: false
+    timeout_seconds: 300
+
+llm:
+  default_provider: "gemini"
+  gemini:
+    api_key: "${GEMINI_API_KEY}"
+    model: "gemini-2.5-pro"
+    temperature: 0.2
+
+projects:
+  default_dir: "e:\\Work\\automation\\workspace"
+  allowed_dirs:
+    - "e:\\Work"
+    - "e:/Work"
+
+security:
+  auto_approve:
+    - "file.read"
+    - "file.create"
+    - "file.modify"
+    - "terminal.run_in_project"
+  ask_user:
+    - "file.delete"
+    - "terminal.run_system"
+    - "git.push"
+  deny:
+    - "access.personal_files"
+    - "access.credentials"
+
+agent:
+  max_iterations: 10
+  max_error_retries_ide: 2
+  max_error_retries_llm: 2
+  task_timeout_minutes: 30
